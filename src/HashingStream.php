@@ -51,9 +51,11 @@ class HashingStream implements StreamInterface
         }
 
         if ($this->stream->eof()) {
-            $this->hash = hash_final($this->hashResource, true);
-            if ($this->onComplete) {
-                call_user_func($this->onComplete, $this->hash);
+            if (!$this->hash) {
+                $this->hash = hash_final($this->hashResource, true);
+                if ($this->onComplete) {
+                    call_user_func($this->onComplete, $this->hash);
+                }
             }
         }
 

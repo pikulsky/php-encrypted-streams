@@ -25,6 +25,7 @@ class HashingStream implements StreamInterface
 
     public function __construct(
         private readonly StreamInterface $stream,
+        private readonly ?string $iv = null,
         private readonly ?string $key = null,
         ?callable $onComplete = null,
         private readonly string $algorithm = 'sha256'
@@ -77,5 +78,8 @@ class HashingStream implements StreamInterface
             $this->key !== null ? HASH_HMAC : 0,
             $this->key ?? ''
         );
+        if ($this->iv !== null) {
+            hash_update($this->hashResource, $this->iv);
+        }
     }
 }

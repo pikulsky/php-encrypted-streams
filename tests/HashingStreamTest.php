@@ -17,6 +17,7 @@ class HashingStreamTest extends TestCase
         $instance = new HashingStream(
             Utils::streamFor($toHash),
             null,
+            null,
             function ($hash) use ($toHash, $algorithm): void {
                 $this->assertSame(hash($algorithm, $toHash, true), $hash);
             },
@@ -39,6 +40,7 @@ class HashingStreamTest extends TestCase
         $toHash = random_bytes(1025);
         $instance = new HashingStream(
             Utils::streamFor($toHash),
+            null,
             $key,
             function ($hash) use ($toHash, $key, $algorithm): void {
                 $this->assertSame(
@@ -65,6 +67,7 @@ class HashingStreamTest extends TestCase
         $callCount = 0;
         $instance = new HashingStream(
             Utils::streamFor($toHash),
+            null,
             $key,
             function ($hash) use ($toHash, $key, $algorithm, &$callCount): void {
                 ++$callCount;
